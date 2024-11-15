@@ -1,0 +1,8 @@
+{
+  "name": "splitit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:richardlagrand/splitit.git",
+  "author": "Typing... <rwlagrand@gmail.com>",
+  "license": "MIT"
+}
