@@ -1,3 +1,8 @@
+import { gettingUsers, addingUsers } from "./controllers/usersController.js";
+import {
+  gettingPayments,
+  addingPayments,
+} from "./controllers/paymentsController.js";
 import morgan from "morgan";
 import express from "express";
 

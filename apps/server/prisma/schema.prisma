@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,19 +8,139 @@ datasource db {
 }
 
 model User {
-  id          Int         @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  username    String      @unique
-  role        Role[]      
-  email       String      @unique
-  password    String      
+  id        Int       @id @default(autoincrement())
+  username  String    @unique @db.VarChar(50)
+  email     String    @unique @db.VarChar(50)
+  password  String
+  roles     UserRole[]
+
+  customers Customer[]
+  debtors   Debtor[]
 }
 
-model Payments {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  debtor_id   Int
-  invoice     Invoice   @relation(fields: [authorId], references: [id])
-  invoice_id  Int       
+model Role {
+  id       Int       @id @default(autoincrement())
+  role     String    @unique
+  access   String[]
 
+  users    UserRole[]
+}
+
+model UserRole {
+  userId   Int
+  roleId   Int
+
+  user     User  @relation(fields: [userId], references: [id])
+  role     Role  @relation(fields: [roleId], references: [id])
+
+  @@id([userId, roleId])
+}
+
+model Customer {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  account     Int        @unique //Stripe Account ID
+  firstName   String
+  lastName    String
+
+  user        User      @relation(fields: [userId], references: [id])
+  invoices    Invoice[]
+
+  @@index([userId])
+}
+
+model Invoice {
+  id             Int          @id @default(autoincrement())
+  customerId     Int
+  creationDate   DateTime
+  type           String[]
+  name           String
+  description    String
+  totalAmount    Float
+  tags           InvoiceTag[]
+  lineItems      LineItem[]
+  payments       Payment[]
+  subscriptions  Subscription[]
+
+  customer       Customer     @relation(fields: [customerId], references: [id])
+  debtors        Debtor[]     @relation("InvoiceDebtors")
+
+  @@index([customerId])
+}
+
+model Payment {
+  id         Int     @id @default(autoincrement())
+  invoiceId  Int
+  debtorId   Int
+  status     Boolean
+
+  invoice    Invoice @relation(fields: [invoiceId], references: [id])
+  debtor     Debtor  @relation(fields: [debtorId], references: [id])
+}
+
+model Debtor {
+  id         Int     @id @default(autoincrement())
+  userId     Int
+  name       String
+
+  user       User      @relation(fields: [userId], references: [id])
+  payments   Payment[]
+  invoices   Invoice[] @relation("InvoiceDebtors")
+}
+
+model LineItem {
+  id            Int       @id @default(autoincrement())
+  productCode   String
+  quantity      Int
+  pricePerUnit  Float
+
+  invoiceId     Int?
+  invoice       Invoice?  @relation(fields: [invoiceId], references: [id])
+  products      LineItemProduct[]
+}
+
+model Product {
+  id             Int              @id @default(autoincrement())
+  prodName       String
+  prodDescription String
+
+  lineItems      LineItemProduct[]
+}
+
+model LineItemProduct {
+  lineItemId  Int
+  productId   Int
+
+  lineItem    LineItem @relation(fields: [lineItemId], references: [id])
+  product     Product  @relation(fields: [productId], references: [id])
+
+  @@id([lineItemId, productId])
+}
+
+model Tag {
+  id       Int        @id @default(autoincrement())
+  tagName  String
+
+  invoices InvoiceTag[]
+}
+
+model InvoiceTag {
+  invoiceId Int
+  tagId     Int
+
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
+
+  @@id([invoiceId, tagId])
+}
+
+model Subscription {
+  id             Int       @id @default(autoincrement())
+  invoiceId      Int
+  debtorId       Int[]
+  startDate      DateTime
+  endDate        DateTime
+  cyclePeriod    Int
+
+  invoice        Invoice   @relation(fields: [invoiceId], references: [id])
 }

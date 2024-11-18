@@ -1,12 +1,12 @@
 import { getUsers, addUser } from "../models/usersModel.js";
 
-export async function gettingUsers(req, res) {
+async function gettingUsers(req, res) {
   const users = await getUsers();
   console.log(users);
   res.status(200).json(users);
 }
 
-export async function addingUsers(req, res) {
+async function addingUsers(req, res) {
   const users = await getUsers();
   const newUser = req.body;
   if (users.some((user) => user.data.username === newUser.username)) {
@@ -21,3 +21,5 @@ export async function addingUsers(req, res) {
     });
   }
 }
+
+export default { gettingUsers, addingUsers };
