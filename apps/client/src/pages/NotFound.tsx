@@ -1,10 +1,11 @@
+import { Link } from "react-router-dom";
 function NotFound() {
   return (
     <>
       <div>
         <h1>404</h1>
         <h2>Something went wrong</h2>
-        <a ref="./Home">click here to go back to home</a>
+        <Link to="./">click here to go back to home</Link>
       </div>
     </>
   );

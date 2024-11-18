@@ -2,7 +2,7 @@ function Incomplete() {
   return (
     <>
       <div>
-        <h1>Incomplete</h1>
+        <h1>Registration incomplete</h1>
       </div>
     </>
   );

@@ -1,7 +1,5 @@
 import { getPayments, addPayments } from "../models/paymentsModel.js";
 
-function gettingPayments() {}
+export async function gettingPayments() {}
 
-function addingPayments() {}
-
-export default { gettingPayments, addingPayments };
+export async function addingPayments() {}

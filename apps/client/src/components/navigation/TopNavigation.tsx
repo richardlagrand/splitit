@@ -93,7 +93,7 @@ export function TopNavigation() {
           <Link to="../login">
             {/* legacyBehavior passHref this was inhere before */}
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Login
+              <Link to="/login">Login</Link>
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

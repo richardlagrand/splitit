@@ -12,6 +12,7 @@ model User {
   username  String    @unique @db.VarChar(50)
   email     String    @unique @db.VarChar(50)
   password  String
+  account   String    //account ID from Stripe
   roles     UserRole[]
 
   customers Customer[]

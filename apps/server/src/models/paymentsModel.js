@@ -1,5 +1,3 @@
-function getPayments() {}
+export async function getPayments() {}
 
-function addPayments() {}
-
-export default { getPayments, addPayments };
+export async function addPayments() {}

@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function getUsers() {
+export async function getUsers() {
   try {
     const users = await prisma.user.findMany();
     console.log("Users retrieved:", users);
@@ -12,24 +12,15 @@ async function getUsers() {
   }
 }
 
-async function addUser() {
+export async function addUser(userData, stripeData) {
   const user = await prisma.user.create({
     data: {
-      name: "Alice",
-      email: "alice@prisma.io",
+      username: userData.username,
+      email: userData.email,
+      password: userData.password, //needs to be stored hashed later on !!
+      account: stripeData.id,
+      roles: { create: { roleId: 1 } },
     },
   });
   console.log(user);
 }
-
-addUser()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
-
-export default { getUsers, addUser };

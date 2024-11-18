@@ -2,15 +2,16 @@
 import { useState } from "react";
 import RegisterForm from "@/components/forms/RegisterForm";
 import TopNavigation from "@/components/navigation/topnavigation";
-import { redirect } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
-  const [baseURL, setBaseURL] = useState("http://localhost:5173");
-  const handleRegister = (data: any) => {
-    // Handle form submission logic here (e.g., API call)
-    data.preventDefault();
+  const [baseURL, setBaseURL] = useState("http://localhost:8080");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleRegister = async (data: any) => {
     const { username, email, password, confirmPassword } = data;
 
     var myHeaders = new Headers();
@@ -30,16 +31,20 @@ const Register: React.FC = () => {
       redirect: "follow",
     };
 
-    fetch(`${baseURL}/api/users`, requestOptions)
-      .then((response) => {
-        if (response.status === 201) {
-          redirect("../Complete");
-        }
-        return response.json();
-      })
-      .then((result) => {
+    try {
+      const response = await fetch(`${baseURL}/api/users`, requestOptions);
+
+      if (response.status === 201) {
+        const result = await response.json();
+        console.log("Response JSON:", result);
+        const url = result.accountLink;
+        window.location.href = url;
+        return;
+        // return navigate(url); //redirect to the stripe accountlink
+      } else {
+        const result = await response.json();
         if (result.error) {
-          console.error("error", result.error);
+          setError(result.error);
           return (
             <Alert>
               <Terminal className="h-4 w-4" />
@@ -48,17 +53,18 @@ const Register: React.FC = () => {
             </Alert>
           );
         }
-      })
-      .catch((error) => {
-        console.error("error", error);
-        return (
-          <Alert>
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Something has gone wrong</AlertTitle>
-            <AlertDescription>($(error))</AlertDescription>
-          </Alert>
-        );
-      });
+      }
+    } catch (err) {
+      console.error("Network error", err);
+      setError("An unexpected error occurred. Please try again later.");
+      return (
+        <Alert>
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Something has gone wrong</AlertTitle>
+          <AlertDescription>($(error))</AlertDescription>
+        </Alert>
+      );
+    }
     console.log("Form data:", data);
   };
 
