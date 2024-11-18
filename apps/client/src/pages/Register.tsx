@@ -30,7 +30,7 @@ const Register: React.FC = () => {
       redirect: "follow",
     };
 
-    fetch(`${baseURL}/users`, requestOptions)
+    fetch(`${baseURL}/api/users`, requestOptions)
       .then((response) => {
         if (response.status === 201) {
           redirect("../Complete");
