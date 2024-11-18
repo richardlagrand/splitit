@@ -1,2 +1,2 @@
 # splitit
-split bills in a set and go fashion with automatic payment handling
+Split bills in a set-and-go fashion with automatic payment handling

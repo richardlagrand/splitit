@@ -1,11 +1,64 @@
 "use client";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import RegisterForm from "@/components/forms/RegisterForm";
 import TopNavigation from "@/components/navigation/topnavigation";
+import { redirect } from "react-router-dom";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Terminal } from "lucide-react";
 
 const Register: React.FC = () => {
+  const [baseURL, setBaseURL] = useState("http://localhost:5173");
   const handleRegister = (data: any) => {
     // Handle form submission logic here (e.g., API call)
+    data.preventDefault();
+    const { username, email, password, confirmPassword } = data;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      username,
+      email,
+      password,
+      confirmPassword,
+    });
+
+    var requestOptions: RequestInit = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+
+    fetch(`${baseURL}/users`, requestOptions)
+      .then((response) => {
+        if (response.status === 201) {
+          redirect("../Complete");
+        }
+        return response.json();
+      })
+      .then((result) => {
+        if (result.error) {
+          console.error("error", result.error);
+          return (
+            <Alert>
+              <Terminal className="h-4 w-4" />
+              <AlertTitle>Something has gone wrong</AlertTitle>
+              <AlertDescription>($(result.error))</AlertDescription>
+            </Alert>
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("error", error);
+        return (
+          <Alert>
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Something has gone wrong</AlertTitle>
+            <AlertDescription>($(error))</AlertDescription>
+          </Alert>
+        );
+      });
     console.log("Form data:", data);
   };
 
