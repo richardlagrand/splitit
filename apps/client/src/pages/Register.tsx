@@ -4,12 +4,12 @@ import RegisterForm from "@/components/forms/RegisterForm";
 import TopNavigation from "@/components/navigation/topnavigation";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Register: React.FC = () => {
   const [baseURL, setBaseURL] = useState("http://localhost:8080");
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleRegister = async (data: any) => {
     const { username, email, password, confirmPassword } = data;
@@ -24,7 +24,7 @@ const Register: React.FC = () => {
       confirmPassword,
     });
 
-    var requestOptions: RequestInit = {
+    var requestOptionsPost: RequestInit = {
       method: "POST",
       headers: myHeaders,
       body: raw,
@@ -32,15 +32,23 @@ const Register: React.FC = () => {
     };
 
     try {
-      const response = await fetch(`${baseURL}/api/users`, requestOptions);
+      const response = await fetch(`${baseURL}/api/users`, requestOptionsPost);
 
       if (response.status === 201) {
         const result = await response.json();
         console.log("Response JSON:", result);
         const url = result.accountLink;
-        window.location.href = url;
-        return;
-        // return navigate(url); //redirect to the stripe accountlink
+        window.location.href = url; //redirect to the stripe accountlink
+        return (
+          <Alert>
+            <Terminal className="h-4 w-4" />
+            <AlertTitle>Finish onboarding with Stripe</AlertTitle>
+            <AlertDescription>
+              Your account is created and you will be redirected to Stripe to
+              complete the onboarding.
+            </AlertDescription>
+          </Alert>
+        );
       } else {
         const result = await response.json();
         if (result.error) {

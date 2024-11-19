@@ -23,6 +23,7 @@ function cors(req, res, next) {
 // users routing
 app.get("/api/users", gettingUsers);
 app.post("/api/users", addingUsers);
+app.put("/api/users", addingUsers);
 
 //payments routing
 app.get("/api/payments", gettingPayments);

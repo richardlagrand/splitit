@@ -74,12 +74,12 @@ const data = {
     },
     {
       title: "Payments",
-      url: "#",
+      url: "../dashboard/payments",
       icon: Bot,
       items: [
         {
           title: "Overview",
-          url: "#",
+          url: "../payments",
         },
         {
           title: "Payouts",
@@ -141,7 +141,7 @@ const data = {
   projects: [
     {
       name: "Madrid",
-      url: "#",
+      url: "../",
       icon: Frame,
     },
     {

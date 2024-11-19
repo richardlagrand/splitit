@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  username  String    @unique @db.VarChar(50)
-  email     String    @unique @db.VarChar(50)
-  password  String
-  account   String    //account ID from Stripe
-  roles     UserRole[]
+  id          Int       @id @default(autoincrement())
+  username    String    @unique @db.VarChar(50)
+  email       String    @unique @db.VarChar(50)
+  password    String
+  account     String    //account ID from Stripe
+  registered  Boolean   @default(false)
+  roles       UserRole[]
 
-  customers Customer[]
-  debtors   Debtor[]
+  customers   Customer[]
+  debtors    Debtor[]
 }
 
 model Role {
