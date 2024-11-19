@@ -14,11 +14,16 @@
   "devDependencies": {
     "nodemon": "^3.1.7",
     "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   },
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "node --experimental-vm-modules $(yarn bin jest)"
+  },
+  "prisma": {
+    "seed": "tsx ./prisma/seed.ts"
   }
 }
