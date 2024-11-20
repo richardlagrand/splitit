@@ -4,13 +4,13 @@ import NotFound from "./pages/NotFound.tsx";
 import Payments from "./pages/Payments.tsx";
 import Payouts from "./pages/Payouts.tsx";
 import Account from "./pages/Account.tsx";
-import Login from "./pages/login.tsx";
+import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
 import Register from "./pages/Register.tsx";
 import Registration from "./pages/Registration.tsx";
-import Complete from "./pages/complete.tsx";
-import Incomplete from "./pages/incomplete.tsx";
-import Dashboard from "./pages/dashboard.tsx";
+import Complete from "./pages/Complete.tsx";
+import Incomplete from "./pages/Incomplete.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 
 const routes = [
   {
@@ -35,6 +35,16 @@ const routes = [
   {
     path: "dashboard",
     element: <Dashboard />,
+    children: [
+      {
+        path: "payouts",
+        element: <Payouts />,
+      },
+      {
+        path: "add-payment",
+        element: <Payments />,
+      },
+    ],
   },
   {
     path: "login",

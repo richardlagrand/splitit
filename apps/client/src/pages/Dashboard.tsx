@@ -13,8 +13,39 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { url } from "inspector";
+import { useEffect, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
+
+interface Breadcrumb {
+  title: string;
+  url: string;
+}
 
 function Dashboard() {
+  const { pathname } = useLocation();
+  const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
+
+  useEffect(() => {
+    // /dashboard/payouts
+    const components = pathname.slice(1).split("/");
+    /**
+     * [
+     *   { title: "Dashboard", url: "/dashboard" },
+     *   { title: "Payouts", url: "/dashboard/payouts" },
+     * ]
+     */
+    const breadcrumbs = components.map((component, index, components) => {
+      return {
+        title: component.charAt(0).toUpperCase() + component.slice(1),
+        url: "/" + components.slice(0, index + 1).join("/"),
+      };
+    });
+
+    console.log({ breadcrumbs });
+    setBreadcrumbs(breadcrumbs);
+  }, [pathname]);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -25,25 +56,33 @@ function Dashboard() {
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">User</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Dashboard</BreadcrumbPage>
-                </BreadcrumbItem>
+                {breadcrumbs.map((breadcrumb, index) => {
+                  const isLast = index === breadcrumbs.length - 1;
+                  return (
+                    <>
+                      <BreadcrumbItem className="hidden md:block">
+                        {isLast ? (
+                          <BreadcrumbLink className="text-rebecca-purple-800">
+                            {breadcrumb.title}
+                          </BreadcrumbLink>
+                        ) : (
+                          <BreadcrumbLink asChild>
+                            <Link to={breadcrumb.url}>{breadcrumb.title}</Link>
+                          </BreadcrumbLink>
+                        )}
+                      </BreadcrumbItem>
+                      {!isLast && (
+                        <BreadcrumbSeparator className="hidden md:block" />
+                      )}
+                    </>
+                  );
+                })}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        <div>test</div>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        <div className="flex-1 p-4 pt-0">
+          <Outlet />
         </div>
       </SidebarInset>
     </SidebarProvider>

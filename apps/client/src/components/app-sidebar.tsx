@@ -1,5 +1,4 @@
 "use client";
-import * as React from "react";
 import {
   AudioWaveform,
   BookOpen,
@@ -23,7 +22,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-// This is sample data.
+
 const data = {
   user: {
     name: "Richard",
@@ -52,7 +51,6 @@ const data = {
       title: "Invoices",
       url: "#",
       icon: SquareTerminal,
-      isActive: true,
       items: [
         {
           title: "Overview",
@@ -74,7 +72,7 @@ const data = {
     },
     {
       title: "Payments",
-      url: "../dashboard/payments",
+      url: "",
       icon: Bot,
       items: [
         {
@@ -83,11 +81,11 @@ const data = {
         },
         {
           title: "Payouts",
-          url: "#",
+          url: "/dashboard/payouts",
         },
         {
           title: "Add Payment",
-          url: "#",
+          url: "/dashboard/add-payment",
         },
       ],
     },
