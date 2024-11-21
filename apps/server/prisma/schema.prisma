@@ -14,6 +14,7 @@ model User {
   password    String
   account     String    //account ID from Stripe
   registered  Boolean   @default(false)
+  avatar      String?
   roles       UserRole[]
 
   customers   Customer[]

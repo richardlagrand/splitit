@@ -1,4 +1,5 @@
 "use client";
+
 import {
   AudioWaveform,
   BookOpen,
@@ -25,9 +26,10 @@ import {
 
 const data = {
   user: {
-    name: "Richard",
+    username: "Richard",
     email: "rwlagrand@gmail.com",
-    avatar: "@/assets/richards_avatar.png",
+    avatar:
+      "https://avatars.githubusercontent.com/u/17964921?s=400&u=58bf0b150c7131e9707d3f5ddecc9f21b54a7785&v=4",
   },
   teams: [
     {
@@ -77,7 +79,7 @@ const data = {
       items: [
         {
           title: "Overview",
-          url: "../payments",
+          url: "/dashboard/payments",
         },
         {
           title: "Payouts",
@@ -131,7 +133,7 @@ const data = {
         },
         {
           title: "Registration",
-          url: "./register",
+          url: "/register",
         },
       ],
     },
@@ -144,16 +146,17 @@ const data = {
     },
     {
       name: "Barcelona",
-      url: "#",
+      url: "../",
       icon: PieChart,
     },
     {
       name: "Granada",
-      url: "#",
+      url: "../",
       icon: Map,
     },
   ],
 };
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>

@@ -1,10 +1,10 @@
 import { AppSidebar } from "@/components/app-sidebar";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +13,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { url } from "inspector";
+
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
@@ -27,14 +27,7 @@ function Dashboard() {
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
 
   useEffect(() => {
-    // /dashboard/payouts
     const components = pathname.slice(1).split("/");
-    /**
-     * [
-     *   { title: "Dashboard", url: "/dashboard" },
-     *   { title: "Payouts", url: "/dashboard/payouts" },
-     * ]
-     */
     const breadcrumbs = components.map((component, index, components) => {
       return {
         title: component.charAt(0).toUpperCase() + component.slice(1),

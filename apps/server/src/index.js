@@ -1,8 +1,11 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { gettingUsers, addingUsers } from "./controllers/usersController.js";
 import {
   gettingPayments,
   addingPayments,
 } from "./controllers/paymentsController.js";
+import { webhookController } from "./controllers/webhookController.js";
 import morgan from "morgan";
 import express from "express";
 
@@ -25,9 +28,19 @@ app.get("/api/users", gettingUsers);
 app.post("/api/users", addingUsers);
 app.put("/api/users", addingUsers);
 
+//login routing
+app.post("api/login");
+
 //payments routing
 app.get("/api/payments", gettingPayments);
 app.post("/api/payments", addingPayments);
+
+//stripe CLI webhook routing
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  webhookController
+);
 
 app.listen(port, () => {
   console.log(` 🏖️ Server running and listening at http://localhost:${port}`);

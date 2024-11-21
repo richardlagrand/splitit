@@ -1,27 +1,30 @@
 "use client";
 import { useState } from "react";
-import RegisterForm from "@/components/forms/RegisterForm";
-import TopNavigation from "@/components/navigation/TopNavigation";
+import AddPaymentForm from "@/components/forms/addPaymentForm";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 // import { useNavigate } from "react-router-dom";
 
-const Register: React.FC = () => {
+const AddPayment: React.FC = () => {
   const [baseURL, setBaseURL] = useState("http://localhost:8080");
   const [error, setError] = useState<string | null>(null);
   // const navigate = useNavigate();
 
-  const handleRegister = async (data: any) => {
-    const { username, email, password, confirmPassword } = data;
+  const handlePayment = async (data: any) => {
+    const { first_name, last_name, email, description, amount, tags } = data;
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      username,
+      first_name,
+      last_name,
       email,
-      password,
-      confirmPassword,
+      description,
+      amount,
+      tags,
     });
 
     var requestOptionsPost: RequestInit = {
@@ -32,22 +35,30 @@ const Register: React.FC = () => {
     };
 
     try {
-      const response = await fetch(`${baseURL}/api/users`, requestOptionsPost);
+      const response = await fetch(
+        `${baseURL}/api/payments`,
+        requestOptionsPost
+      );
 
       if (response.status === 201) {
         const result = await response.json();
         console.log("Response JSON:", result);
-        const url = result.accountLink;
-        window.location.href = url; //redirect to the stripe accountlink
+        const url = result.url;
         return (
-          <Alert>
-            <Terminal className="h-4 w-4" />
-            <AlertTitle>Finish onboarding with Stripe</AlertTitle>
-            <AlertDescription>
-              Your account is created and you will be redirected to Stripe to
-              complete the onboarding.
-            </AlertDescription>
-          </Alert>
+          <>
+            <div className="h-screen flex items-center justify-center text-5xl flex-col">
+              <h1>Payment link created</h1>
+              <p>${url}</p>
+              <Link to={url}>
+                <Button variant="outline">Go to Dashboard</Button>
+              </Link>
+            </div>
+            <Alert>
+              <Terminal className="h-4 w-4" />
+              <AlertTitle>Your payment link is created</AlertTitle>
+              <AlertDescription>${url}</AlertDescription>
+            </Alert>
+          </>
         );
       } else {
         const result = await response.json();
@@ -78,15 +89,16 @@ const Register: React.FC = () => {
 
   return (
     <>
-      <div className="ml-5">
-        <TopNavigation />
-      </div>
-      <div className="container mx-auto mt-8 p-4 max-w-lg bg-white shadow-md rounded-md">
-        <h1 className="text-3xl font-bold mb-6 text-center">Sign up</h1>
-        <RegisterForm onSubmit={handleRegister} />
+      <div className="container mx-auto mt-0 max-w-lg">
+        <h1 className="text-3xl font-bold mb-6 text-center">Add payment</h1>
+        <p className="text-center mt-2 font-light text-sm">
+          {" "}
+          Enter the details of the tenant you want to bill.
+        </p>
+        <AddPaymentForm onSubmit={handlePayment} />
       </div>
     </>
   );
 };
 
-export default Register;
+export default AddPayment;

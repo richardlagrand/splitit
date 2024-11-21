@@ -3,6 +3,106 @@
 @tailwind utilities;
 @layer base {
   :root {
+    /* Base color (Indigo): HSL(242.2, 47.4%, 34.3%) */
+    --background: 242.2 47.4% 97%; /* Very light tone for background */
+    --foreground: 242.2 47.4% 10%; /* Very dark tone for text (almost black) */
+    --card: 242.2 47.4% 95%; /* Light tone for cards */
+    --card-foreground: 242.2 47.4% 12%; /* Darker text on cards */
+    --popover: 242.2 47.4% 95%; /* Light tone for popovers */
+    --popover-foreground: 242.2 47.4% 12%; /* Darker text for popovers */
+    --primary: 242.2 47.4% 34.3%; /* Base indigo color */
+    --primary-foreground: 0 0% 100%; /* White text on primary buttons */
+    --primary-hover: 242.2 47.4% 98%; /* Very light indigo for hover states on primary elements */
+    --primary-hover-foreground: 242.2 47.4% 10%; /* Dark text for readability on hover */
+    --secondary: 242.2 47.4% 50%; /* A slightly lighter indigo for secondary elements */
+    --secondary-foreground: 0 0% 100%; /* White for text on secondary elements */
+    --secondary-hover: 242.2 47.4% 96%; /* Soft light indigo for hover on secondary */
+    --secondary-hover-foreground: 242.2 47.4% 10%; /* Dark text for readability on hover */
+    --muted: 242.2 47.4% 85%; /* Light muted color */
+    --muted-foreground: 242.2 47.4% 15%; /* Darker muted text */
+    --accent: 242.2 47.4% 25%; /* Dark indigo for accent items */
+    --accent-foreground: 0 0% 100%; /* White text on accents */
+    --destructive: 242.2 47.4% 20%; /* Very dark indigo for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White text on destructive buttons */
+    --border: 242.2 47.4% 80%; /* Light indigo for borders */
+    --input: 242.2 47.4% 90%; /* Very light tone for input backgrounds */
+    --ring: 242.2 47.4% 34.3%; /* Base indigo for focus ring */
+    --chart-1: 242.2 47.4% 34.3%; /* Base indigo for charts */
+    --chart-2: 242.2 47.4% 25%; /* Dark indigo for contrast in charts */
+    --chart-3: 242.2 47.4% 15%; /* Even darker indigo for more contrast */
+    --radius: 0.5rem;
+    --sidebar-background: 242.2 47.4% 95%; /* Light indigo for sidebar background */
+    --sidebar-foreground: 242.2 47.4% 10%; /* Dark indigo for sidebar text */
+    --sidebar-primary: 242.2 47.4% 34.3%; /* Base indigo */
+    --sidebar-primary-foreground: 0 0% 100%; /* White text for primary elements in sidebar */
+    --sidebar-accent: 242.2 47.4% 25%; /* Darker indigo accent for sidebar */
+    --sidebar-accent-foreground: 0 0% 100%; /* White for accent text in sidebar */
+    --sidebar-border: 242.2 47.4% 80%; /* Light indigo border */
+    --sidebar-ring: 242.2 47.4% 34.3%; /* Base indigo for sidebar focus ring */
+  }
+
+  .dark {
+    /* Dark Mode Variables */
+    --background: 242.2 47.4% 8%; /* Almost black background for dark mode */
+    --foreground: 0 0% 100%; /* White text for contrast */
+    --card: 242.2 47.4% 12%; /* Dark card background */
+    --card-foreground: 0 0% 100%; /* White text on cards */
+    --popover: 242.2 47.4% 12%; /* Dark tone for popovers */
+    --popover-foreground: 0 0% 100%; /* White text for popovers */
+    --primary: 242.2 47.4% 34.3%; /* Base indigo color */
+    --primary-foreground: 0 0% 100%; /* White for text on primary elements */
+    --primary-hover: 242.2 47.4% 18%; /* Soft dark indigo for hover states */
+    --primary-hover-foreground: 0 0% 100%; /* White for readability on hover */
+    --secondary: 242.2 47.4% 20%; /* Dark indigo for secondary elements */
+    --secondary-foreground: 0 0% 100%; /* White for text on secondary elements */
+    --secondary-hover: 242.2 47.4% 15%; /* Even darker indigo for secondary hover */
+    --secondary-hover-foreground: 0 0% 100%; /* White for readability on hover */
+    --muted: 242.2 47.4% 15%; /* Dark muted tone */
+    --muted-foreground: 242.2 47.4% 85%; /* Lighter muted text for readability */
+    --accent: 242.2 47.4% 25%; /* Darker indigo for accents */
+    --accent-foreground: 0 0% 100%; /* White text on accents */
+    --destructive: 242.2 47.4% 12%; /* Very dark indigo for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White text on destructive buttons */
+    --border: 242.2 47.4% 15%; /* Dark border for contrast */
+    --input: 242.2 47.4% 12%; /* Input background for dark mode */
+    --ring: 242.2 47.4% 34.3%; /* Base indigo for focus ring in dark mode */
+    --chart-1: 242.2 47.4% 34.3%; /* Base indigo for charts */
+    --chart-2: 242.2 47.4% 25%; /* Darker indigo for variety */
+    --chart-3: 242.2 47.4% 15%; /* Very dark indigo for strong contrast */
+    --sidebar-background: 242.2 47.4% 10%; /* Very dark indigo for sidebar background */
+    --sidebar-foreground: 0 0% 100%; /* White text in sidebar for dark mode */
+    --sidebar-primary: 242.2 47.4% 34.3%; /* Base indigo for primary elements in sidebar */
+    --sidebar-primary-foreground: 0 0% 100%; /* White for primary text */
+    --sidebar-accent: 242.2 47.4% 20%; /* Darker indigo for sidebar accents */
+    --sidebar-accent-foreground: 0 0% 100%; /* White text for sidebar accents */
+    --sidebar-border: 242.2 47.4% 15%; /* Dark border color for sidebar */
+    --sidebar-ring: 242.2 47.4% 34.3%; /* Base indigo for sidebar focus ring */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Hover Styles */
+  .hover-primary:hover {
+    background-color: hsl(var(--primary-hover));
+    color: hsl(var(--primary-hover-foreground));
+  }
+
+  .hover-secondary:hover {
+    background-color: hsl(var(--secondary-hover));
+    color: hsl(var(--secondary-hover-foreground));
+  }
+}
+
+/*
+@layer base {
+  :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -72,6 +172,8 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%}
 }
+
+
 @layer base {
   * {
     @apply border-border;
@@ -80,3 +182,4 @@
     @apply bg-background text-foreground;
   }
 }
+*/

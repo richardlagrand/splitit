@@ -24,3 +24,17 @@ export async function addUser(userData, stripeData) {
   });
   console.log(user);
 }
+
+export async function findUser(loginData) {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: loginData.email,
+      },
+    });
+    console.log("User retrieved:", user);
+    return user;
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+  }
+}

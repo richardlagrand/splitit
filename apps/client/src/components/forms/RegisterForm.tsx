@@ -7,11 +7,11 @@ import {
   FormItem,
   FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import registerSchema from "@/components/schemas/registerSchema";
+import { Button } from "../ui/button";
 
 interface RegisterFormProps {
   onSubmit: (data: any) => void;
@@ -37,14 +37,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           control={control}
           name="username"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="mb-2">
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder="Enter your username" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -53,7 +50,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           control={control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="mb-2">
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input type="email" placeholder="Enter your email" {...field} />
@@ -66,7 +63,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="mb-2">
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
@@ -83,7 +80,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
           control={control}
           name="confirmPassword"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="mb-2">
               <FormLabel>Confirm Password</FormLabel>
               <FormControl>
                 <Input
@@ -96,12 +93,15 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
             </FormItem>
           )}
         />
-        <button
-          type="submit"
-          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-        >
-          Register
-        </button>
+        <Button type="submit" className="w-full mt-4">
+          Continue your registration
+        </Button>
+        <div>
+          <p className="justify-center text-center font-light mt-3 text-sm">
+            You will be re-directed the secure environment of the payment
+            provider Stripe to finish your registration with Splitit.
+          </p>
+        </div>
       </form>
     </Form>
   );
